@@ -1,0 +1,125 @@
+* 빌드와 배포
+1. 빌드 : build, war를 만드는 것 (Maven Build)
+2. 배포 : deploy, war를 was에 배포하는 것 (was : Tomcat)
+
+* 빌드
+1. 프로젝트 Run - Maven Build
+2. war 이름
+    - pom.xml
+      1) artifactId : app14
+      2) packaging : war
+      3) version : 1.0.0-BUILD-SNAPSHOT
+    - app14-1.0.0-BUILD-SNAPSHOT.war
+3. war 위치
+    프로젝트\target\app14-1.0.0-BUILD-SNAPSHOT.war
+
+* 배포 전 선행작업
+1. 포트변경(오라클 사용 대비)
+    CATALINA_HOME\conf\server.xml 열고,
+    <Connector port="8080">를 <Connector port="9090">로 수정한다.
+
+* 배포
+1. CATALINA_HOME을 연다.
+2. CATALINA_HOME\webapps 디렉터리를 연다.
+3. CATALINA_HOME\webapps 디렉터리에 war 파일을 복사해 둔다.
+4. Tomcat을 구동한다.
+    1) windows : CATALINA_HOME\bin\startup.bat 파일 실행
+    2) linux   : CATALINA_HOME\bin\startup.sh  파일 실행
+5. CATALINA_HOME\webapps 디렉터리에 war 파일과 같은 이름의 디렉터리가 생긴다.
+
+* 확인
+1. 웹 브라우저를 연다.
+2. 주소를 입력한다.
+    http://localhost:9090/app14-1.0.0-BUILD-SNAPSHOT
+
+-----------------------------------------------------------------------------
+
+* Maven Build 결과 war 파일 이름 바꾸기
+    - pom.xml
+      <build>
+        <finalName>${artifactId}</finalName>
+        ...
+      </build>
+
+* 배포 후 확인
+    http://localhost:9090/app14
+
+-----------------------------------------------------------------------------
+
+* 컨텍스트 패스가 없는 배포
+  1. war 파일의 이름을 ROOT.war로 바꾼다.
+  2. CATALINA_HOME\webapps 디렉터리에는 이미 ROOT 디렉터리가 있다.
+     해당 ROOT 디렉터리의 내용을 모두 지운다.(또는 ROOT 디렉터리 자체를 지운다.)
+  3. 배포하고 확인한다.
+     http://localhost:9090
+
+-----------------------------------------------------------------------------
+
+* 자동 빌드 및 배포 툴 jenkins 사용해 보기
+
+1. Maven
+
+  1) maven을 다운로드한다.
+
+    (1) mvnrepository.com에서 maven compiler plugin 3.8.1 버전을 지원한다. (mvnrepository 열어서 어떤 버전을 지원하는지 확인한 내용임)
+    (2) pom.xml을 수정한다.
+      <properties>
+        <maven-version>3.8.1</maven-version>
+      </properties>
+      <build>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven-version}</version>
+        </plugin>
+      </build>
+    (3) https://maven.apache.org/에서 3.8.1버전을 다운로드한다.
+       다운로드주소 https://archive.apache.org/dist/maven/maven-3/3.8.1/binaries/
+       ① windows : apache-maven-3.8.1-bin.zip
+       ② linux   : apache-maven-3.8.1-bin.tar.gz
+
+  2) apache-maven-3.8.1-bin.zip 파일을 압축 풀어서 MAVEN_HOME을 등록한다.
+    (1) 경로  C:\Program Files\Maven3.8 디렉터리에 압축을 푼다. (디렉터리 경로 및 이름은 자유롭게 변경할 수 있다.)
+    (2) 환경변수를 등록한다.
+        (1) 변수 명  MAVEN_HOME
+        (2) 변수 값  C:\Program Files\Maven3.8
+
+2. 프로젝트에 build 인코딩을 추가한다.
+  1) pom.xml을 수정한다.
+    <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+3. Git
+  1) 원격 레파지토리를 만든다.
+  2) 프로젝트를 원격 레파지토리에 push한다.
+
+
+
+
+
+
+
+
+
+
+
+1. jenkins 다운로드
+    1) https://www.jenkins.io/
+    2) LTS (Stable) - Generic Java Package(.war)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
